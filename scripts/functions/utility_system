@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-# params: [printf_if=-] [suffix]
 __rvm_system_path()
 {
-  rvm_remote_server_path="$(__rvm_db "rvm_remote_server_path${2:-}")"
+  rvm_remote_server_path="$(__rvm_db "rvm_remote_server_path${1:-99}")"
+
   [[ -n "${rvm_remote_server_path}" ]] ||
   rvm_remote_server_path="${_system_name_lowercase}/${_system_version}/${_system_arch}"
-  if [[ "${1:-}" == "-" ]]
-  then printf "%b" "${rvm_remote_server_path}\n"
-  fi
+
+  echo "${rvm_remote_server_path}"
 }
 
 __rvm_remote_extension()
@@ -84,7 +83,7 @@ __rvm_calculate_remote_file()
 
   __rvm_include_travis_binaries || return $1
 
-  __rvm_system_path "" "${3:-}"
+  __rvm_system_path "${3:-}" > /dev/null
   __rvm_ruby_package_file "${4:-}"
   __remote_file="${rvm_remote_server_url}/${rvm_remote_server_path}${rvm_ruby_package_file}"
 }
@@ -93,7 +92,9 @@ __rvm_calculate_remote_file()
 __rvm_remote_server_path_single()
 {
   \typeset __remote_file
+
   __rvm_calculate_remote_file "$@" || return $?
+
   if
     [[ -z "${__remote_file:-}" ]]
   then
@@ -120,6 +121,7 @@ __rvm_remote_server_path()
 {
   \typeset _iterator
   _iterator=""
+
   while ! __rvm_remote_server_path_single 0 1 "${_iterator}" "${1:-}"
   do : $(( _iterator+=1 ))
   done
@@ -135,7 +137,7 @@ __list_remote_all()
   do
     __rvm_include_travis_binaries || continue
 
-    __rvm_system_path "" "${_iterator}"
+    __rvm_system_path "${_iterator}" > /dev/null
     rvm_debug "__list_remote_all${_iterator:-} $rvm_remote_server_url $rvm_remote_server_path"
 
     __list_remote_for "${rvm_remote_server_url}" "$rvm_remote_server_path"
