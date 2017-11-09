@@ -67,7 +67,7 @@ requirements_netbsd_define()
       if
         is_head_or_disable_binary "$1"
       then
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           ant) __rvm_which ant >/dev/null || requirements_netbsd_check_custom apache-ant   ;;
           mvn) __rvm_which mvn >/dev/null || requirements_netbsd_check_custom apache-maven ;;
         esac

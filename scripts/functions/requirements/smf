@@ -136,7 +136,7 @@ requirements_smf_define()
         is_head_or_disable_binary "$1"
       then
         requirements_smf_define_git || return $?
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           ant) __rvm_which ant >/dev/null 2>&1 || return $? ;;
           mvn) requirements_check_custom_after mvn=maven    ;;
         esac

@@ -48,7 +48,7 @@ requirements_fedora_define()
           requirements_check_fallback java-1.8.0-openjdk-devel java-devel ||
           requirements_check_fallback java-1.7.0-openjdk-devel java-devel
 
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           mvn) requirements_check_custom_after mvn=maven ;;
         esac
 

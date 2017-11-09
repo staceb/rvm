@@ -135,7 +135,7 @@ requirements_solaris_10_define()
         is_head_or_disable_binary "$1"
       then
         requirements_solaris_check_custom git
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           mvn) requirements_check_custom_after mvn=maven ;;
         esac
       fi
@@ -180,7 +180,7 @@ requirements_solaris_11_define()
       then
         requirements_check jdk
         requirements_check_fallback git scmgit-base
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           ant) requirements_check ant                    ;;
           mvn) requirements_check_custom_after mvn=maven ;;
         esac

@@ -208,34 +208,6 @@ is_head_or_disable_binary()
   true # for OSX
 }
 
-# Usage:
-#   jruby_installation_method $rvm_ruby_string [$rvm_ruby_version]
-# @stdout ant|mvn|mvnw
-jruby_installation_method()
-{
-  \typeset __jversion
-  if [[ -n "${2:-}" ]]
-  then __jversion="$2"
-  else
-    __jversion="${1#jruby-}"
-    __jversion="${__jversion%%-*}"
-  fi
-  case "$1" in
-    (jruby-head*)
-      echo "mvnw"
-      ;;
-    (*)
-      if __rvm_version_compare "${__jversion}" -ge "1.7.25"
-      then echo "mvnw"
-      elif __rvm_version_compare "${__jversion}" -ge "1.7.0"
-      then echo "mvn"
-      else echo "ant"
-      fi
-      ;;
-  esac
-  true # for OSX
-}
-
 latest_maven_version()
 {
   # contains some headers/footers and lines like this:

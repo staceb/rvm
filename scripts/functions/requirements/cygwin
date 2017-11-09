@@ -48,7 +48,7 @@ requirements_cygwin_define()
         is_head_or_disable_binary "$1"
       then
         requirements_check git
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           ant)  echo "Need Java JDK and Ant"   ;;
           mvn)  echo "Need Java JDK and Maven" ;;
           mvnw) echo "Need Java JDK"           ;;

@@ -348,7 +348,7 @@ requirements_osx_brew_define()
         is_head_or_disable_binary "$1"
       then
         __rvm_which git >/dev/null || requirements_check git
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           mvn) requirements_check_custom_after mvn=maven ;;
         esac
       fi

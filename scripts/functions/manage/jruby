@@ -1,5 +1,36 @@
 #!/usr/bin/env bash
 
+# Usage:
+#   jruby_install_method $rvm_ruby_string [$rvm_ruby_version]
+# @stdout ant|mvn|mvnw
+jruby_install_method()
+{
+  \typeset __jversion
+
+  if [[ -n "${2:-}" ]]
+  then __jversion="$2"
+  else
+    __jversion="${1#jruby-}"
+    __jversion="${__jversion%%-*}"
+  fi
+
+  case "$1" in
+    (jruby-head*)
+      echo "mvnw"
+      ;;
+    (*)
+      if __rvm_version_compare "${__jversion}" -ge "1.7.25"
+      then echo "mvnw"
+      elif __rvm_version_compare "${__jversion}" -ge "1.7.0"
+      then echo "mvn"
+      else echo "ant"
+      fi
+      ;;
+  esac
+
+  true # for OSX
+}
+
 jruby_install_build_nailgun()
 {
   __rvm_cd "${rvm_src_path}/$rvm_ruby_string/tool/nailgun" &&
@@ -131,8 +162,8 @@ jruby_install()
   __rvm_apply_patches
 
   \typeset method
-  method=$( jruby_installation_method  "${rvm_ruby_string}" "${rvm_ruby_version}" )  || return $?
-  jruby_install_$method  || return $?
+  method=$( jruby_install_method "${rvm_ruby_string}" "${rvm_ruby_version}" ) || return $?
+  jruby_install_$method || return $?
 
   __rvm_rm_rf "$rvm_ruby_home" && \command \mkdir -p "$rvm_ruby_home" &&
   __rvm_log_command "install" "$rvm_ruby_string - #installing to $rvm_ruby_home" \

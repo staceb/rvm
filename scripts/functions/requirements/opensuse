@@ -73,7 +73,7 @@ requirements_opensuse_define()
       else requirements_check java
       fi
 
-      case $( jruby_installation_method  "$1" ) in
+      case $( jruby_install_method "$1" ) in
         ant) requirements_check ant                    ;;
         mvn) requirements_check_custom_after mvn=maven ;;
       esac

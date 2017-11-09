@@ -41,7 +41,7 @@ requirements_solus_define()
         requirements_solus_check_binary javac ||
           requirements_check_fallback openjdk-8-devel
         requirements_check git
-        case $( jruby_installation_method  "$1" ) in
+        case $( jruby_install_method "$1" ) in
           mvn) requirements_check_custom_after mvn=maven ;;
         esac
       else
