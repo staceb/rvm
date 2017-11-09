@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-__rvm_system_path()
+__rvm_remote_path()
 {
   rvm_remote_server_path="$(__rvm_db "rvm_remote_server_path${1:-99}")"
 
@@ -83,7 +83,7 @@ __rvm_calculate_remote_file()
 
   __rvm_include_travis_binaries || return $1
 
-  __rvm_system_path "${3:-}" > /dev/null
+  __rvm_remote_path "${3:-}" > /dev/null
   __rvm_ruby_package_file "${4:-}"
   __remote_file="${rvm_remote_server_url}/${rvm_remote_server_path}${rvm_ruby_package_file}"
 }
@@ -137,7 +137,7 @@ __list_remote_all()
   do
     __rvm_include_travis_binaries || continue
 
-    __rvm_system_path "${_iterator}" > /dev/null
+    __rvm_remote_path "${_iterator}" > /dev/null
     rvm_debug "__list_remote_all${_iterator:-} $rvm_remote_server_url $rvm_remote_server_path"
 
     __list_remote_for "${rvm_remote_server_url}" "$rvm_remote_server_path"
