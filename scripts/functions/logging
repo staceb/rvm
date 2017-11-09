@@ -209,7 +209,10 @@ rvm_log()
 {
   [[ ${rvm_quiet_flag} == 1 ]] && return
 
-  printf "%b" "$*\n"
+  if rvm_pretty_print stdout
+  then __rvm_replace_colors "$*\n"
+  else printf "%b" "$*\n"
+  fi
 }
 
 rvm_debug()
