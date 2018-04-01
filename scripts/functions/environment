@@ -205,7 +205,7 @@ __rvm_setup()
   if
     [[ -n "${BASH_VERSION:-}" ]] && ! __function_on_stack cd pushd popd
   then
-    export rvm_shell_nounset
+    export rvm_bash_nounset
     if __rvm_has_opt "nounset"
     then rvm_bash_nounset=1
     else rvm_bash_nounset=0
@@ -262,8 +262,12 @@ __rvm_teardown()
       trap 'shell_session_update' EXIT
     fi
 
-    (( rvm_bash_nounset == 1 )) && set -o nounset
-    unset rvm_bash_nounset
+	if
+	  ! __function_on_stack cd pushd popd
+	then
+      (( rvm_bash_nounset == 1 )) && set -o nounset
+      unset rvm_bash_nounset
+    fi
   fi
 
   if
